@@ -28,6 +28,11 @@ if _folder is None:
         "locally and will be lost when the Space instance is restarted."
     )
     _folder = Path(__file__).parent / "history"
+if _folder.startswith("/data") and not os.path.exists("/data"):
+    print(
+        f"'HISTORY_FOLDER' environment variable is set to '{_folder}' which doesn't exist. User history will be saved "
+        "locally and will be lost when the Space instance is restarted."
+    )
 HISTORY_FOLDER_PATH = Path(_folder)
 
 IMAGES_FOLDER_PATH = HISTORY_FOLDER_PATH / "images"

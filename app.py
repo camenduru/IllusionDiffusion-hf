@@ -164,6 +164,16 @@ with gr.Blocks(css=css) as app:
         with gr.Column():
             result_image = gr.Image(label="Illusion Diffusion Output", interactive=False, elem_id="output")
 
+    prompt.submit(
+        inference,
+        inputs=[control_image, prompt, negative_prompt, guidance_scale, controlnet_conditioning_scale, control_start, control_end, strength, seed, sampler],
+        outputs=[result_image, used_seed]
+    )
+    run_btn.click(
+        inference,
+        inputs=[control_image, prompt, negative_prompt, guidance_scale, controlnet_conditioning_scale, control_start, control_end, strength, seed, sampler],
+        outputs=[result_image, used_seed]
+    )
 app.queue(max_size=20)
 
 if __name__ == "__main__":

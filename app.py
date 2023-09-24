@@ -16,7 +16,6 @@ from diffusers import (
     DPMSolverMultistepScheduler,
     EulerDiscreteScheduler
 )
-from illusion_style import css
 
 BASE_MODEL = "SG161222/Realistic_Vision_V5.1_noVAE"
 
@@ -131,7 +130,7 @@ def inference(
     )
     return out_image["images"][0], gr.update(visible=True), my_seed
 
-with gr.Blocks(css=css) as app:
+with gr.Blocks() as app:
     gr.Markdown(
         '''
         <center><h1>Illusion Diffusion HQ 🌀</h1></span>  

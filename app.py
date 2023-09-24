@@ -180,24 +180,7 @@ with gr.Blocks(css=css) as app:
             with gr.Group(elem_id="share-btn-container", visible=False) as share_group:
                 community_icon = gr.HTML(community_icon_html)
                 loading_icon = gr.HTML(loading_icon_html)
-                share_button = gr.Button("Share to community", elem_id="share-btn")
 
-    history = show_gallery_history()
-    prompt.submit(
-        inference,
-        inputs=[control_image, prompt, negative_prompt, guidance_scale, controlnet_conditioning_scale, control_start, control_end, strength, seed, sampler],
-        outputs=[result_image, share_group, used_seed]
-    ).then(
-        fn=fetch_gallery_history, inputs=[prompt, result_image], outputs=history, queue=False
-    )
-    run_btn.click(
-        inference,
-        inputs=[control_image, prompt, negative_prompt, guidance_scale, controlnet_conditioning_scale, control_start, control_end, strength, seed, sampler],
-        outputs=[result_image, share_group, used_seed]
-    ).then(
-        fn=fetch_gallery_history, inputs=[prompt, result_image], outputs=history, queue=False
-    )
-    share_button.click(None, [], [], _js=share_js)
 app.queue(max_size=20)
 
 if __name__ == "__main__":

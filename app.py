@@ -163,9 +163,6 @@ with gr.Blocks(css=css) as app:
             run_btn = gr.Button("Run")
         with gr.Column():
             result_image = gr.Image(label="Illusion Diffusion Output", interactive=False, elem_id="output")
-            with gr.Group(elem_id="share-btn-container", visible=False) as share_group:
-                community_icon = gr.HTML(community_icon_html)
-                loading_icon = gr.HTML(loading_icon_html)
 
 app.queue(max_size=20)
 

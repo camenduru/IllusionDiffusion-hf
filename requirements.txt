@@ -1,4 +1,4 @@
-diffusers
+git+https://github.com/camenduru/diffusers@FreeU
 transformers
 accelerate
 torch

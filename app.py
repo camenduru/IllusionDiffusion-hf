@@ -16,12 +16,12 @@ from diffusers import (
     DPMSolverMultistepScheduler,
     EulerDiscreteScheduler
 )
-BASE_MODEL = "/content/models/cyberrealistic_v33.safetensors"
+BASE_MODEL = "/content/models/torch/cyberrealistic"
 
 # Initialize both pipelines
 vae = AutoencoderKL.from_pretrained("stabilityai/sd-vae-ft-mse", torch_dtype=torch.float16)
 controlnet = ControlNetModel.from_pretrained("monster-labs/control_v1p_sd15_qrcode_monster", torch_dtype=torch.float16)#, torch_dtype=torch.float16)
-main_pipe = StableDiffusionControlNetPipeline.from_single_file(
+main_pipe = StableDiffusionControlNetPipeline.from_pretrained(
     BASE_MODEL,
     controlnet=controlnet,
     vae=vae,

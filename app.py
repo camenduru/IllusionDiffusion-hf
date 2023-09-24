@@ -1,3 +1,5 @@
+# https://huggingface.co/spaces/AP123/IllusionDiffusion/blob/main/app.py modified
+
 import torch
 import os
 import gradio as gr
@@ -11,18 +13,15 @@ from diffusers import (
     StableDiffusionLatentUpscalePipeline,
     StableDiffusionImg2ImgPipeline,
     StableDiffusionControlNetImg2ImgPipeline,
-    DPMSolverMultistepScheduler,  # <-- Added import
-    EulerDiscreteScheduler  # <-- Added import
+    DPMSolverMultistepScheduler,
+    EulerDiscreteScheduler
 )
-from share_btn import community_icon_html, loading_icon_html, share_js
-from gallery_history import fetch_gallery_history, show_gallery_history
 from illusion_style import css
 
 BASE_MODEL = "SG161222/Realistic_Vision_V5.1_noVAE"
 
 # Initialize both pipelines
 vae = AutoencoderKL.from_pretrained("stabilityai/sd-vae-ft-mse", torch_dtype=torch.float16)
-#init_pipe = DiffusionPipeline.from_pretrained("SG161222/Realistic_Vision_V5.1_noVAE", torch_dtype=torch.float16)
 controlnet = ControlNetModel.from_pretrained("monster-labs/control_v1p_sd15_qrcode_monster", torch_dtype=torch.float16)#, torch_dtype=torch.float16)
 main_pipe = StableDiffusionControlNetPipeline.from_pretrained(
     BASE_MODEL,
@@ -31,15 +30,7 @@ main_pipe = StableDiffusionControlNetPipeline.from_pretrained(
     safety_checker=None,
     torch_dtype=torch.float16,
 ).to("cuda")
-#main_pipe.unet = torch.compile(main_pipe.unet, mode="reduce-overhead", fullgraph=True)
-#main_pipe.unet.to(memory_format=torch.channels_last)
-#main_pipe.unet = torch.compile(main_pipe.unet, mode="reduce-overhead", fullgraph=True)
-#model_id = "stabilityai/sd-x2-latent-upscaler"
 image_pipe = StableDiffusionControlNetImg2ImgPipeline.from_pretrained(BASE_MODEL, unet=main_pipe.unet, vae=vae, controlnet=controlnet, safety_checker=None, torch_dtype=torch.float16).to("cuda")
-#image_pipe.unet = torch.compile(image_pipe.unet, mode="reduce-overhead", fullgraph=True)
-#upscaler = StableDiffusionLatentUpscalePipeline.from_pretrained(model_id, torch_dtype=torch.float16)
-#upscaler.to("cuda")
-
 
 # Sampler map
 SAMPLER_MAP = {
@@ -104,9 +95,6 @@ def inference(
 ):
     if prompt is None or prompt == "":
         raise gr.Error("Prompt is required")
-    
-    # Generate the initial image
-    #init_image = init_pipe(prompt).images[0]
 
     # Rest of your existing code
     control_image_small = center_crop_resize(control_image)
@@ -142,8 +130,6 @@ def inference(
         controlnet_conditioning_scale=float(controlnet_conditioning_scale)
     )
     return out_image["images"][0], gr.update(visible=True), my_seed
-        
-    #return out
 
 with gr.Blocks(css=css) as app:
     gr.Markdown(

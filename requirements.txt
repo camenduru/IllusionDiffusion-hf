@@ -1,4 +1,4 @@
-git+https://github.com/camenduru/diffusers@FreeU
+diffusers==0.21.2
 transformers
 accelerate
 torch

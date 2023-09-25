@@ -28,8 +28,6 @@ main_pipe = StableDiffusionControlNetPipeline.from_pretrained(
     safety_checker=None,
     torch_dtype=torch.float16,
 ).to("cuda")
-main_pipe.unet.freeu.enable = True
-main_pipe.unet.freeu.sd14()
 image_pipe = StableDiffusionControlNetImg2ImgPipeline.from_pretrained(BASE_MODEL, unet=main_pipe.unet, vae=vae, controlnet=controlnet, safety_checker=None, torch_dtype=torch.float16).to("cuda")
 
 # Sampler map
